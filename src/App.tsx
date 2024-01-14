@@ -1,5 +1,24 @@
 import { ModeToggle } from "./components/mode-toggle";
 import { useTheme } from "./components/theme-provider";
+import { Button } from "./components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "./components/ui/card";
+import { Input } from "./components/ui/input";
+import { Label } from "./components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./components/ui/select";
+import { Separator } from "./components/ui/separator";
 import { Skeleton } from "./components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { COLORS, DarkColorKey, LightColorKey } from "./constants/colors";
@@ -8,7 +27,7 @@ function App() {
   const { theme } = useTheme();
   return (
     <main>
-      <nav className="p-8">
+      <nav className="sticky top-0 p-8 bg-background">
         <div className="flex gap-4">
           <ModeToggle />
           <p>Current theme: {theme}</p>
@@ -17,9 +36,10 @@ function App() {
       <section className="container">
         <article className="flex flex-col gap-4">
           <div className="text-sm">
-            <div>
-              Muted backgrounds such as &lt;TabsList /&gt;, &lt;Skeleton /&gt;
-            </div>
+            <p className="pb-2">
+              Muted backgrounds and text colors for components such as
+              &lt;TabsList /&gt;, &lt;Skeleton /&gt;
+            </p>
 
             <DisplayElement
               colors={[
@@ -67,6 +87,77 @@ function App() {
             />
           </div>
         </article>
+        <Separator className="my-4" />
+        <article className="flex flex-col gap-4">
+          <div className="text-sm">
+            <p className="pb-2">
+              Background color and text color for &lt;Card /&gt;
+            </p>
+
+            <DisplayElement
+              colors={[
+                {
+                  cssVariable: "--card",
+                  colorKey: "card",
+                },
+                {
+                  cssVariable: "--card-foreground",
+                  colorKey: "cardForeground",
+                },
+              ]}
+            />
+          </div>
+          <div className="flex flex-col gap-y-4">
+            <DisplayDemo
+              componentName="Card"
+              demo={
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Create project</CardTitle>
+                    <CardDescription>
+                      Deploy your new project in one-click.
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form>
+                      <div className="grid items-center w-full gap-4">
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="name">Name</Label>
+                          <Input id="name" placeholder="Name of your project" />
+                        </div>
+                        <div className="flex flex-col space-y-1.5">
+                          <Label htmlFor="framework">Framework</Label>
+                          <Select>
+                            <SelectTrigger id="framework">
+                              <SelectValue placeholder="Select" />
+                            </SelectTrigger>
+                            <SelectContent position="popper">
+                              <SelectItem value="next">Next.js</SelectItem>
+                              <SelectItem value="sveltekit">
+                                SvelteKit
+                              </SelectItem>
+                              <SelectItem value="astro">Astro</SelectItem>
+                              <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </form>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Button variant="outline">Cancel</Button>
+                    <Button>Deploy</Button>
+                  </CardFooter>
+                </Card>
+              }
+              affectedClasses={{
+                bg: "bg-card",
+                text: "text-card-foreground",
+              }}
+            />
+          </div>
+        </article>
+        <Separator className="my-4" />
       </section>
     </main>
   );
@@ -86,7 +177,7 @@ const DisplayDemo = (props: DisplayDemoProps) => {
     <div className="grid grid-cols-2 p-4 border">
       <div className="border-r-2">
         <pre className="mb-2">{`<${componentName}/>`}</pre>
-        {demo}
+        <div className="mr-4">{demo}</div>
       </div>
       <div className="ml-4">
         {affectedClasses.bg && <p>Bg color classname: {affectedClasses.bg}</p>}
