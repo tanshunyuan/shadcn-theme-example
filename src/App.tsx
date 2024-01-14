@@ -203,9 +203,14 @@ const DisplayElement = (props: DisplayElementProps) => {
       <div className={`${theme === "light" ? "font-bold" : ""}`}>
         <p>Light {theme === "light" ? " (selected)" : ""}</p>
         {colors.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="flex gap-2 mb-2">
+            <div
+              className={`h-8 w-8 border border-pink-900 rounded-sm ${
+                COLORS["light"][item.colorKey].hslBgClassname
+              }`}
+            />
             <pre>
-              {item.cssVariable}: {COLORS["light"][item.colorKey]}
+              {item.cssVariable}: {COLORS["light"][item.colorKey].color}
             </pre>
           </div>
         ))}
@@ -213,9 +218,14 @@ const DisplayElement = (props: DisplayElementProps) => {
       <div className={`${theme === "dark" ? "font-bold" : ""}`}>
         <p>Dark {theme === "dark" ? " (selected)" : ""}</p>
         {colors.map((item, index) => (
-          <div key={index}>
+          <div key={index} className="flex gap-2 mb-2">
+            <div
+              className={`h-8 w-8 border border-pink-900 rounded-sm ${
+                COLORS["dark"][item.colorKey].hslBgClassname
+              }`}
+            />
             <pre>
-              {item.cssVariable}: {COLORS["dark"][item.colorKey]}
+              {item.cssVariable}: {COLORS["dark"][item.colorKey].color}
             </pre>
           </div>
         ))}
